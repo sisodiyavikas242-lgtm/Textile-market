@@ -1,20 +1,72 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Textile Connect</title>
+<title>Textile Marketplace</title>
 
 <style>
-body { font-family: Arial; margin:0; background:#eef2f3; }
-header { background:#2c3e50; color:white; text-align:center; padding:15px; }
-.container { padding:20px; }
-.card { background:white; padding:15px; margin-top:10px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
-input { width:100%; padding:10px; margin:5px 0; }
-button { background:#27ae60; color:white; padding:10px; border:none; cursor:pointer; }
-.lang-btn { float:right; background:#e67e22; margin-top:-40px; }
-.delete-btn { background:red; margin-top:5px; }
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f5f5f5;
+}
+
+header {
+    background: #111;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+nav {
+    background: #ff6600;
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hero {
+    padding: 40px;
+    text-align: center;
+    background: white;
+}
+
+.hero h1 {
+    color: #333;
+}
+
+.btn {
+    padding: 10px 20px;
+    background: #ff6600;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.section {
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+footer {
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
 </style>
 
 </head>
@@ -22,110 +74,53 @@ button { background:#27ae60; color:white; padding:10px; border:none; cursor:poin
 <body>
 
 <header>
-    <h1 id="title">Textile Buyer-Seller Connect</h1>
-    <p id="subtitle">Direct Deal | No Commission</p>
-    <button class="lang-btn" onclick="toggleLang()">हिंदी / English</button>
+    <h1>Textile Marketplace</h1>
+    <p>Connect Buyers & Sellers</p>
 </header>
 
-<div class="container">
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Sellers</a>
+    <a href="#">Buyers</a>
+    <a href="#">Contact</a>
+</nav>
 
-    <h2 id="addBusiness">Add Your Business</h2>
+<div class="hero">
+    <h1>India's Textile Network</h1>
+    <p>Find Best Suppliers & Buyers Easily</p>
+    <button class="btn">Join Now</button>
+</div>
 
-    <input type="text" id="name" placeholder="Seller Name">
-    <input type="text" id="product" placeholder="Product">
-    <input type="text" id="location" placeholder="Location">
-    <input type="text" id="phone" placeholder="WhatsApp Number">
+<div class="section">
+    <h2>Top Sellers</h2>
 
-    <button onclick="addSeller()" id="addBtn">Add Seller</button>
+    <div class="card">
+        <h3>Jaipur Kurti House</h3>
+        <p>Specialist in Designer Kurtis</p>
+        <button class="btn">Contact</button>
+    </div>
 
-    <h2 id="available">Available Sellers</h2>
-    <div id="list"></div>
+    <div class="card">
+        <h3>Surat Fabric Hub</h3>
+        <p>Wholesale Saree & Fabric</p>
+        <button class="btn">Contact</button>
+    </div>
 
 </div>
 
-<script>
+<div class="section">
+    <h2>Buyers</h2>
 
-let isHindi = false;
-let sellers = JSON.parse(localStorage.getItem("sellers")) || [];
+    <div class="card">
+        <h3>Delhi Retail Store</h3>
+        <p>Looking for Cotton Kurtis</p>
+    </div>
 
-function toggleLang() {
-    isHindi = !isHindi;
+</div>
 
-    document.getElementById("title").innerText = isHindi ? "टेक्सटाइल खरीदार-विक्रेता कनेक्ट" : "Textile Buyer-Seller Connect";
-    document.getElementById("subtitle").innerText = isHindi ? "सीधा सौदा | कोई कमीशन नहीं" : "Direct Deal | No Commission";
-    document.getElementById("addBusiness").innerText = isHindi ? "अपना व्यापार जोड़ें" : "Add Your Business";
-    document.getElementById("addBtn").innerText = isHindi ? "विक्रेता जोड़ें" : "Add Seller";
-    document.getElementById("available").innerText = isHindi ? "उपलब्ध विक्रेता" : "Available Sellers";
-
-    document.getElementById("name").placeholder = isHindi ? "विक्रेता का नाम" : "Seller Name";
-    document.getElementById("product").placeholder = isHindi ? "उत्पाद" : "Product";
-    document.getElementById("location").placeholder = isHindi ? "स्थान" : "Location";
-    document.getElementById("phone").placeholder = isHindi ? "व्हाट्सएप नंबर" : "WhatsApp Number";
-
-    render();
-}
-
-function addSeller() {
-    let name = document.getElementById("name").value;
-    let product = document.getElementById("product").value;
-    let location = document.getElementById("location").value;
-    let phone = document.getElementById("phone").value;
-
-    if(name === "" || product === "" || phone === "") {
-        alert("Please fill all fields");
-        return;
-    }
-
-    let seller = {name, product, location, phone};
-    sellers.push(seller);
-
-    localStorage.setItem("sellers", JSON.stringify(sellers));
-
-    render();
-
-    document.getElementById("name").value = "";
-    document.getElementById("product").value = "";
-    document.getElementById("location").value = "";
-    document.getElementById("phone").value = "";
-}
-
-function deleteSeller(index) {
-    sellers.splice(index,1);
-    localStorage.setItem("sellers", JSON.stringify(sellers));
-    render();
-}
-
-function render() {
-    let list = document.getElementById("list");
-    list.innerHTML = "";
-
-    sellers.forEach((s, index) => {
-
-        let btnText = isHindi ? "व्हाट्सएप पर संपर्क करें" : "Contact on WhatsApp";
-        let deleteText = isHindi ? "हटाएं" : "Delete";
-
-        let card = `
-        <div class="card">
-            <h3>${s.name}</h3>
-            <p>${isHindi ? "उत्पाद" : "Product"}: ${s.product}</p>
-            <p>${isHindi ? "स्थान" : "Location"}: ${s.location}</p>
-
-            <a href="https://wa.me/91${s.phone}">
-                <button>${btnText}</button>
-            </a>
-
-            <button class="delete-btn" onclick="deleteSeller(${index})">${deleteText}</button>
-        </div>
-        `;
-
-        list.innerHTML += card;
-    });
-}
-
-render();
-
-</script>
+<footer>
+    <p>© 2026 Textile Marketplace</p>
+</footer>
 
 </body>
 </html>
-```     
